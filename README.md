@@ -249,6 +249,32 @@ Linux 5.4.0-87-generic (ubuntu) 	10/10/2021 	_x86_64_	(4 CPU)
 ```
 * sar 명령은 여러 서버의 정보들을 취합하는데 사용되며, 이와 같이 -n 옵션을 사용하면 네트워크의 상태를 확인할 수 있다.
 * DEV는 모든 네트워크 디바이스의 상태를 확인하겠다는 의미로 사용되고, rxkB/s는 초당 받은 킬로바이트 크기를 뜻하고, txkB/s는 초당 보낸 킬로바이트 크기를 뜻한다.
+
+### sar -n SOCK 1
+```
+ubuntu@ubuntu:~$ sar -n SOCK 1
+Linux 5.4.0-87-generic (ubuntu) 	10/10/2021 	_x86_64_	(4 CPU)
+
+04:37:24 PM    totsck    tcpsck    udpsck    rawsck   ip-frag    tcp-tw
+04:37:25 PM      1007         5         5         0         0         7
+04:37:26 PM      1007         5         5         0         0         7
+04:37:27 PM      1007         5         5         0         0         7
+04:37:28 PM      1007         5         5         0         0         7
+04:37:29 PM      1007         5         5         0         0         7
+^C
+
+평균값:       1007         5         5         0         0         7
+```
+항목 | 내용
+-- | --
+totsck | 시스템에서 사용한 소켓의 개수
+tcpsck | 현재 사용 중인 TCP소켓의 개수
+udpsck | 현재 사용 중인 UDP소켓의 개수
+rawsck | 현재 사용 중인 RAW소켓의 개수
+ip-frag | 현재 사용 중인 IP Fragment의 개수
+tcp-tw | TIME_WAIT 상태에 있는 TCP 소켓의 개수
+
+
 ### sar -n TCP,ETCP 1
 ```
 ubuntu@ubuntu:~$ sar -n TCP,ETCP 1
@@ -279,6 +305,18 @@ Linux 5.4.0-87-generic (ubuntu) 	10/10/2021 	_x86_64_	(4 CPU)
 평균값:   atmptf/s  estres/s retrans/s isegerr/s   orsts/s
 평균값:       0.00      0.00      0.00      0.00      0.00
 ```
+항목 | 내용
+active/s | 초당 CLOSED 상태에서 SYN-SENT 상태로 전환된 TCP 연결의 개수. 장비에서 외부로 초기화된 초당 TCP 연결의 개수를 뜻함. 이 값이 많다면 해당 서버에 새롭게 접근한 클라이언트 수가 많다는 의미가 된다. 또한 자바 소켓 통신 시 connect() 메서드에 해당함. [tcpActiveOpens]
+passive/s | 초당 LISTEN 상태에서 SYN-RCVD 상태로 전환된 TCP 연결의 개수. 외부에서 장비로 초기화된 초당 TCP연결의 개수를 뜻하며, accept() 메서드에 해당함. [tcpPassiveOpens]
+iseg/s | 초당 받은 전체 세그먼트 개수. 여기에는 에러가 발생한 것도 포함되며, 당연히 연결되어 있는 상태에서 받은 세그먼트도 포함된다. [tcpInSegs]
+oseg/s | 초당 보낸 전체 세그먼트 개수. 연결되어 있는 상태에서 처리된것도 포함되지만, 재전송(retransmitted)된 데이터(octets)는 여기에 포함되지 않는다. [tcpOutSegs]
+ | 
+atmptf/s | SYN-SENT나 SYN-RCVD 상태에서 CLOSED 상태로 전환된 TCP연결의 초당 개수와 SYN-RCVD 상태에서 LISTEN 상태로 전환된 연결의 초당 개수의 합이다. [tcpAttemptFails]
+estres/s | ESTABLISHED나 CLOSE-WAIT 상태에서 CLOSED 상태로 전환된 TCP 연결의 초당 개수 [tcpEstabResets]
+retrans/s | 초당 재전송된 세그먼트의 총 개수. 다시 말해서 하나 이상의 이미 전송된 데이터를 포함한 TCP 세그먼트의 개수를 말한다. 일반적인 경우에는 이와 같은 재전송이 발생하지 않기 때문에 이 값이 0보다 클 경우에는 네트워크나 서버에 문제가 발생했을 확률이 높다. [tcpRetransSegs]
+isegerr/s | 초당 에러로 처리된 세그먼트의 총 개수. [tcpInErrs]
+orsts/s | 초당 전송된 RST 플래그를 포함한 TCP 세그먼트의 개수. [tcpOutRsts]
+
 * 위에서 살펴본 명령에서 TCP와 ETCP로 변경된 것 외에는 크게 다른 부분은 없는데, 제공되는 내용은 확연히 다르다. TCP의 경우 TCP를 통한 네트워크 처리 현황을 확인할 수 있으며, ETCP는 TCP 처리 시에 발생한 에러들의 개수를 확인하는데 유용하다.
 * active/s는 장비에서 외부로 초기화된 초당 TCP 연결의 개수를 뜻함. 이 값이 많다면 해당 서버에 새롭게 접근한 클라이언트 수가 많다는 의미가 된다. 또한 자바 소켓 통신 시 connect() 메서드에 해당함.
 * passive/s는 외부에서 장비로 초기화된 초당 TCP연결의 개수를 뜻하며, accept() 메서드에 해당함.
