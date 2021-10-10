@@ -157,4 +157,39 @@ Linux 5.4.0-87-generic (ubuntu) 	10/10/2021 	_x86_64_	(4 CPU)
 * sar 명령은 여러 서버의 정보들을 취합하는데 사용되며, 이와 같이 -n 옵션을 사용하면 네트워크의 상태를 확인할 수 있다.
 * DEV는 모든 네트워크 디바이스의 상태를 확인하겠다는 의미로 사용되고, rxkB/s는 초당 받은 킬로바이트 크기를 뜻하고, txkB/s는 초당 보낸 킬로바이트 크기를 뜻한다.
 ### sar -n TCP,ETCP 1
+```
+ubuntu@ubuntu:~$ sar -n TCP,ETCP 1
+Linux 5.4.0-87-generic (ubuntu) 	10/10/2021 	_x86_64_	(4 CPU)
 
+01:51:18 PM  active/s passive/s    iseg/s    oseg/s
+01:51:19 PM      0.00      0.00      1.00      1.00
+
+01:51:18 PM  atmptf/s  estres/s retrans/s isegerr/s   orsts/s
+01:51:19 PM      0.00      0.00      0.00      0.00      0.00
+
+01:51:19 PM  active/s passive/s    iseg/s    oseg/s
+01:51:20 PM      0.00      0.00      0.00      0.00
+
+01:51:19 PM  atmptf/s  estres/s retrans/s isegerr/s   orsts/s
+01:51:20 PM      0.00      0.00      0.00      0.00      0.00
+
+01:51:20 PM  active/s passive/s    iseg/s    oseg/s
+01:51:21 PM      0.00      0.00      0.00      0.00
+
+01:51:20 PM  atmptf/s  estres/s retrans/s isegerr/s   orsts/s
+01:51:21 PM      0.00      0.00      0.00      0.00      0.00
+^C
+
+평균값:   active/s passive/s    iseg/s    oseg/s
+평균값:       0.00      0.00      0.33      0.33
+
+평균값:   atmptf/s  estres/s retrans/s isegerr/s   orsts/s
+평균값:       0.00      0.00      0.00      0.00      0.00
+```
+* 위에서 살펴본 명령에서 TCP와 ETCP로 변경된 것 외에는 크게 다른 부분은 없는데, 제공되는 내용은 확연히 다르다. TCP의 경우 TCP를 통한 네트워크 처리 현황을 확인할 수 있으며, ETCP는 TCP 처리 시에 발생한 에러들의 개수를 확인하는데 유용하다.
+* active/s는 장비에서 외부로 초기화된 초당 TCP 연결의 개수를 뜻함. 이 값이 많다면 해당 서버에 새롭게 접근한 클라이언트 수가 많다는 의미가 된다. 또한 자바 소켓 통신 시 connect() 메서드에 해당함.
+* passive/s는 외부에서 장비로 초기화된 초당 TCP연결의 개수를 뜻하며, accept() 메서드에 해당함.
+* retrans/s는 초당 재전송된 세그먼트의 총개수를 뜻하는데, 일반적인 경우에는 이와 같은 재전송이 발생하지 않기 때문에 이 값이 0보다 클 경우에는 네트워크나 서버에 문제가 발생했을 확률이 높다.
+
+### top
+* top은 시스템의 전반적인 현황을 한눈에 실시간으로 볼 수 있다는 장점이 있지만, CPU를 ㅁ낳이 사용하므로 부하가 심하다는 단점도 존재함. 서버의 프로세스가 많거나 부하가 심할 때에는 부하를 가중시키는 문제를 야기할 수 있기 때문에 조심해서 사용해야한다.
