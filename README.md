@@ -40,23 +40,28 @@ procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
  1  1      0 4414316 294504 1641280    0    0  5876     0 3238 5686 22 14 46 18  0
 ```
 
-* vmstat 명령은 가상 메모리의 상황을 확인하는 도구.
+구분 | 항목 | 내용
+-- | -- | --
+Procs | r | CPU의 Run Queue를 의미하며, CPU가 바빠서 자기 차례를 기다리는 프로세스의 개수를 뜻함. CPU코어 개수보다 이 숫자가 많으면 서버가 아주 바쁜 상황이라고 판단할 수 있음.
+Procs | b | 중단 불가능한 슬립(uninterruptible sleep) 상태에 있는 프로세스의 수
+Memory | swpd | 가상 메모리를 사용한 크기
+Memory | free | 사용하지 않는 메모리의 크기
+Memory | buff | 버퍼로 사용하는 메모리의 크기
+Memory | cache | 캐시로 사용하는 메모리의 크기
+Swap | si | 초당 디스크에서 읽은 스왑된 메모리의 크기
+Swap | so | 초당 디스크로 스왑된 메모리의 크기
+I/O | bi | 블록 디바이스에서 받은 블록 수(blocks/s)
+I/O | bo | 블록 디바이스로 보낸 블록 수 
+System | in | 클럭(clock)을 포함한 초당 인터럽트 수 
+System | cs | 초당 컨텍스트 전환 개수
+CPU | us | 사용자 애플리케이션(non-kernel code)코드에 의해 사용되는 CPU 시간
+CPU | sy | 시스템(kernel code)에 의해 사용되는 CPU 시간
+CPU | id | idle 상태에서 수행된 시간
+CPU | wa | I/O를 대기하는 데 소요된 시간 
+
+* vmstat 명령은 가상 메모리의 통계 정보를 제공. 프로세스, 메모리, 페이징, 블록, I/O, 트랩스, 디스크, CPU에 대한 정보를 제공한다.
 * vmstsat을 수행하면 위와 같이 첫번째 결과는 다른 결과와 다르게 수치가 많이 차이나는 것을 볼 수 있다. 이는 vmstat의 명령어를 수행한 후 항상 첫번째 줄은 이전의 vmstat 명령어로 수집된 정도에 대한 평균치를 나타내기 때문이다. 즉 현재의 정보가 아닌 이전에 누적된 정보임을 기억해야 한다.
-* r
-  * CPU의 Run Queue를 의미하며, CPU가 바빠서 자기 차례를 기다리는 프로세스의 개수를 뜻함.
-  * CPU코어 개수보다 이 숫자가 많으면 서버가 아주 바쁜 상황이라고 판단할 수 있음.
-* free
-  * KB단위의 메모리 여유를 의미. 가용 메모리가 많은지 확인해 봐야 한다.
-* swap
-  * 메모리가 부족할 때 디스크를 메모리처럼 사용하는 영역(가상메모리). 해당 영역은 반드시 사용하지 않고 있어야만 한다고 생각해야 하는것이 좋다.
-  * si=swap in, so=swap out
-* cpu
-  * us(user CPU)
-    * 사용자 애플리케이션(non-kernel code)에 의해 사용되는 CPU 시간 비율
-  * sy(system CPU)
-    * 시스템(kernel code)에 의해 사용되는 CPU 시간 비율
-  * wa(wait I/O CPU)
-    * CPU 사용 대기 시간 비율
+
 ### mpstat -P ALL 1
 ```
 ubuntu@ubuntu:~$ mpstat -P ALL 1
