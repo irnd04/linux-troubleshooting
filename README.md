@@ -127,15 +127,18 @@ CMD | 프로세스를 수행시킨
 
 ### pidstat 1
 ```
-ubuntu@ubuntu:~$ pidstat 1
+ubuntu@ubuntu:~$ pidstat -p 5934 1
 Linux 5.4.0-87-generic (ubuntu) 	10/10/2021 	_x86_64_	(4 CPU)
 
-01:35:38 PM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
-01:35:39 PM  1000      3074    0.00    0.98    0.00    0.00    0.98     3  Xorg
-01:35:39 PM  1000      3235    0.98    0.98    0.00    0.00    1.96     2  gnome-shell
-01:35:39 PM  1000      3947    0.98    0.00    0.00    0.00    0.98     0  update-notifier
-01:35:39 PM     0      5378    0.00    0.98    0.00    0.00    0.98     2  kworker/u256:0-events_power_efficient
-01:35:39 PM  1000      5466    0.00    0.98    0.00    0.00    0.98     1  pidstat
+02:41:03 PM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+02:41:04 PM  1000      5934    1.00    1.00    0.00    0.00    2.00     0  java
+02:41:05 PM  1000      5934    0.00    0.00    0.00    0.00    0.00     0  java
+02:41:06 PM  1000      5934    0.00    1.00    0.00    0.00    1.00     0  java
+02:41:07 PM  1000      5934    1.00    0.00    0.00    0.00    1.00     0  java
+02:41:08 PM  1000      5934    1.00    0.00    0.00    0.00    1.00     0  java
+02:41:09 PM  1000      5934    0.00    1.00    0.00    0.00    1.00     0  java
+02:41:10 PM  1000      5934    1.00    1.00    0.00    0.00    2.00     0  java
+
 ```
 
 * 프로세스별 CPU 사용량을 확인하는 명령. 
