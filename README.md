@@ -125,7 +125,7 @@ CMD | 프로세스를 수행시킨
 * 해당 프로세스의 모든 스레드 정보를 상세히 확인할 수 있다.
 
 
-### pidstat 1
+### pidstat -p {pid} 1
 ```
 ubuntu@ubuntu:~$ pidstat -p 5934 1
 Linux 5.4.0-87-generic (ubuntu) 	10/10/2021 	_x86_64_	(4 CPU)
