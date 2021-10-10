@@ -94,6 +94,35 @@ Linux 5.4.0-87-generic (ubuntu) 	10/10/2021 	_x86_64_	(4 CPU)
 - mpstat 명령어는 CPU별 사용량을 확인할 수 있다. 이를 통하여 단일 CPU만 열심히 일하고 있는지, 여러 CPU가 분산되어 일하고 있는지를 확인할 수 있다.
 - 사용법: mpstat [ 옵션 ] [ <간격> [ <회수> ] ]
 
+### ps -Lf -p {pid}
+```
+ ubuntu@ubuntu:~$ ps -Lf -p 5934
+UID         PID   PPID    LWP  C NLWP STIME TTY          TIME CMD
+ubuntu     5934   5891   5934  0   73 14:34 tty2     00:00:00 /opt/idea-IU-201.7846.76/jbr/bin/java -classpath /opt/idea-IU-201.7846.76/lib/bootstrap.jar:/opt/idea-IU-201.7846.76/lib/extensions.jar:/opt/i
+ubuntu     5934   5891   5935  0   73 14:34 tty2     00:00:00 /opt/idea-IU-201.7846.76/jbr/bin/java -classpath /opt/idea-IU-201.7846.76/lib/bootstrap.jar:/opt/idea-IU-201.7846.76/lib/extensions.jar:/opt/i
+ubuntu     5934   5891   5936  2   73 14:34 tty2     00:00:04 /opt/idea-IU-201.7846.76/jbr/bin/java -classpath /opt/idea-IU-201.7846.76/lib/bootstrap.jar:/opt/idea-IU-201.7846.76/lib/extensions.jar:/opt/i
+ubuntu     5934   5891   5937  2   73 14:34 tty2     00:00:04 /opt/idea-IU-201.7846.76/jbr/bin/java -classpath /opt/idea-IU-201.7846.76/lib/bootstrap.jar:/opt/idea-IU-201.7846.76/lib/extensions.jar:/opt/i
+ubuntu     5934   5891   5938  1   73 14:34 tty2     00:00:03 /opt/idea-IU-201.7846.76/jbr/bin/java -classpath /opt/idea-IU-201.7846.76/lib/bootstrap.jar:/opt/idea-IU-201.7846.76/lib/extensions.jar:/opt/i
+ubuntu     5934   5891   5939  0   73 14:34 tty2     00:00:00 /opt/idea-IU-201.7846.76/jbr/bin/java -classpath /opt/idea-IU-201.7846.76/lib/bootstrap.jar:/opt/idea-IU-201.7846.76/lib/extensions.jar:/opt/i
+ubuntu     5934   5891   5940  0   73 14:34 tty2     00:00:00 /opt/idea-IU-201.7846.76/jbr/bin/java -classpath /opt/idea-IU-201.7846.76/lib/bootstrap.jar:/opt/idea-IU-201.7846.76/lib/extensions.jar:/opt/i
+ubuntu     5934   5891   5941  0   73 14:34 tty2     00:00:00 /opt/idea-IU-201.7846.76/jbr/bin/java -classpath /opt/idea-IU-201.7846.76/lib/bootstrap.jar:/opt/idea-IU-201.7846.76/lib/extensions.jar:/opt/i
+ubuntu     5934   5891   5942 39   73 14:34 tty2     00:01:24 /opt/idea-IU-201.7846.76/jbr/bin/java -classpath /opt/idea-IU-201.7846.76/lib/bootstrap.jar:/opt/idea-IU-201.7846.76/lib/extensions.jar:/opt/i
+ubuntu     5934   5891   5943 16   73 14:34 tty2     00:00:34 /opt/idea-IU-201.7846.76/jbr/bin/java -classpath /opt/idea-IU-201.7846.76/lib/bootstrap.jar:/opt/idea-IU-201.7846.76/lib/extensions.jar:/opt/i
+```
+항목 | 내용
+---- | ---- 
+UID | 사용자 id
+PID | 프로세스 id
+PPID | 부모 프로세스 id
+LWP | Light Weight Process 의 약자로 스레드 id
+C | 프로세서 사용량을 나타내는 값으로, 해당 프로세스가 지속해서 사용한 CPU 사용량
+NLWP | 해당 프로세스에서 사용하는 스레드의 수. 즉 LWP의 개수
+STIME | 프로세스가 시작한 시간
+TTY | 해당 프로세스를 통제하는 터미널
+TIME | CPU 점유시간
+CMD | 프로세스를 수행시킨 
+
+* 해당 프로세스의 모든 스레드 정보를 상세히 확인할 수 있다.
 
 
 ### pidstat 1
